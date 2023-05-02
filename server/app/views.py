@@ -8,4 +8,5 @@ def index() :
 	if request.method == "POST":
 		output = request.get_json(force=True) #le force=True sert a skip la verification du contentType application/json
 		recu = output['text']
+		return "tout est ok chacal"
 	return render_template("public/index.html", test=recu)
