@@ -1,14 +1,129 @@
-<!DOCTYPE html>
-<html>
+{% extends "public/templates/base.html" %}
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Acceuil</title>
-    </head>
+{% block title %}Dashboard{% endblock %}
 
-    <body>
-        Test : {{test}}
-    </body>
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.js"></script>
+{% endblock %}
 
-</html>
+{% block main %}
+
+
+<div class="container-lg p-5">
+  
+  
+  <div class="d-flex flex-row-reverse justify-content-center flex-wrap">
+    <div class="w-50" style="min-width: 25rem;">
+
+      <div class="m-2" style="height: 10rem;">
+        <h3 class="text-center">Mon Dashboard</h3>
+        <p class="text-center"><small class="text-body-secondary">Mis à jour il y a 3 minutes</small></p>
+        <div class="w-100 d-flex flex-row justify-content-center">
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modifIpArduino">Modifier l'IP</button>
+        </div>
+      </div>
+      
+      <div class="d-flex flex-row" style="height: 15rem;">
+        <div class="card w-50 m-2">
+          <div class="card-body">
+            <h4 class="card-title text-body-secondary"><img src="{{ url_for('static', filename='img/thermometer-half.svg') }}" width="20" height="20"/> Temperature</h4>
+            <h1 class="display-6">18.4 <small class="text-body-secondary fs-3">°C</small></h1>
+          </div>
+          <canvas id="chartTemperature" class="w-100 h-100" style="border-radius: 7px;"></canvas>
+        </div>
+        <div class="card w-50 m-2">
+          <div class="card-body">
+            <h4 class="card-title text-body-secondary"><img src="{{ url_for('static', filename='img/droplet-fill.svg') }}" width="20" height="20"/> Humidité</h4>
+            <h1 class="display-6">54 <small class="text-body-secondary fs-3">%</small></h1>
+          </div>
+          <canvas id="chartHumidity"></canvas>
+        </div>
+      </div>
+
+    </div>
+    <div class="w-50"  style="min-width: 25rem;">
+
+      <div class="card m-2" style="height: 25rem;">
+        <div class="card-body">
+          <div id="affichage_maison" class="w-100 h-100"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="d-flex flex-row-reverse justify-content-center flex-wrap">
+    <div class="w-50" style="min-width: 25rem;">
+      
+      <div class="d-flex flex-row" style="height: 15rem;">
+        <div class="card w-50 m-2">
+          <div class="card-body">
+            <h4 class="card-title text-body-secondary"><img src="{{ url_for('static', filename='img/lightbulb-fill.svg') }}" width="20" height="20"/> Lumière</h4>
+            <h1 class="display-6">86 <small class="text-body-secondary fs-3">%</small></h1>
+          </div>
+        </div>
+        <div class="card w-50 m-2">
+          <div class="card-body">
+            <h4 class="card-title text-body-secondary"><img src="{{ url_for('static', filename='img/wind.svg') }}" width="20" height="20"/> Vent</h4>
+            <h1 class="display-6">24.7 <small class="text-body-secondary fs-3">km/h</small></h1>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="w-50"  style="min-width: 25rem;">
+
+      <div class="d-flex flex-row" style="height: 15rem;">
+        <div class="card w-50 m-2">
+          <div class="card-body">
+            <h4 class="card-title text-body-secondary"><img src="{{ url_for('static', filename='img/layout-three-columns.svg') }}" width="20" height="20"/> Volets</h4>
+            <h1 class="display-6">Ouverts</h1>
+          </div>
+          <div class="mx-auto mb-5">
+            <button type="button" class="btn btn-outline-dark btn-lg">Fermer</button>
+          </div>
+        </div>
+        <div class="card w-50 m-2">
+          <div class="card-body">
+            <h4 class="card-title text-body-secondary"><img src="{{ url_for('static', filename='img/columns.svg') }}" width="20" height="20"/> Stores</h4>
+            <h1 class="display-6">Fermés</small></h1>
+          </div>
+          <div class="mx-auto mb-5">
+            <button type="button" class="btn btn-outline-dark btn-lg">Ouvrir</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modifIpArduino" tabindex="-1" aria-labelledby="modifIpArduinoLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modification de l'IP</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <label for="ipArduino" class="form-label">Adresse IP de la station météo</label>
+        <input type="email" class="form-control" id="ipArduino" aria-describedby="ipArduinoHelp" placeholder="000.000.000.000">
+        <div id="ipArduinoHelp" class="form-text">L'adresse IP de la station météo est trouvable sur son écran</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary">Changer l'IP</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/sketch.js') }}"></script>
+<script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+
+{% endblock %}
