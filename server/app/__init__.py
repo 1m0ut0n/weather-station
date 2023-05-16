@@ -16,12 +16,14 @@ import datetime
 
 # ---------------------- Initialisation de l'application ----------------------
 
+# Créer l'extention db
+db = SQLAlchemy()
 # Créer l'application
 app = Flask(__name__)
 # Configuration de la base de donnée SQLite (chemin du dossier par rapport à 'app')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/data.sqlite3.db'
-# Créer l'extention db et l'initialiser avec l'application 
-db = SQLAlchemy(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.sqlite3.db'
+# Initialiser la db avec l'application 
+db.init_app(app)
 
 
 
@@ -31,7 +33,3 @@ db = SQLAlchemy(app)
 from app import models
 # Creation des routes http et définition de leurs action
 from app import views
-
-
-
-# ----------------------------- Creation de la db -----------------------------

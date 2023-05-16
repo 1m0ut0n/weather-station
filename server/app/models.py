@@ -1,4 +1,5 @@
 from datetime import datetime
+from app import app
 from app import db
 
 class Data(db.Model):
@@ -22,9 +23,15 @@ class Data(db.Model):
 		return "{} -> {}K {}% {}lum {}km/h".format(self.date, self.temperature, self.humidity, self.light, self.wind)
 
 
-# Creation des tables
-db.create_all()
-# Test
-db.session.add(Data(datetime.now(), 293.15,50, 1000, 10))
-# Mise à jour des informations
-db.session.commit()
+
+
+# ----------------------------- Creation de la db -----------------------------
+
+
+with app.app_context() :
+	# Creation des tables
+	db.create_all()
+	# Test
+	db.session.add(Data(datetime.now(), 293.15,50, 1000, 10))
+	# Mise à jour des informations
+	db.session.commit()
