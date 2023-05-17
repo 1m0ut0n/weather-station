@@ -5,6 +5,7 @@
 {% block head %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/p5@1.6.0/lib/p5.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 {% endblock %}
 
 {% block main %}
@@ -18,7 +19,7 @@
 
       <div class="m-2" style="height: 10rem;">
         <h3 class="text-center">Mon Dashboard</h3>
-        <p class="text-center"><small class="text-body-secondary">Mis à jour il y a 3 minutes</small></p>
+        <p class="text-center"><small class="text-body-secondary"><span id="info">Mis à jour à NaN</span></small></p>
         <div class="w-100 d-flex flex-row justify-content-center">
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modifIpArduino">Modifier l'IP</button>
         </div>
@@ -28,14 +29,14 @@
         <div class="card w-50 m-2">
           <div class="card-body">
             <h4 class="card-title text-body-secondary"><img src="{{ url_for('static', filename='img/thermometer-half.svg') }}" width="20" height="20"/> Temperature</h4>
-            <h1 class="display-6">18.4 <small class="text-body-secondary fs-3">°C</small></h1>
+            <h1 class="display-6"><span id="temperature">NaN</span> <small class="text-body-secondary fs-3">°C</small></h1>
           </div>
           <canvas id="chartTemperature" class="w-100 h-100" style="border-radius: 7px;"></canvas>
         </div>
         <div class="card w-50 m-2">
           <div class="card-body">
             <h4 class="card-title text-body-secondary"><img src="{{ url_for('static', filename='img/droplet-fill.svg') }}" width="20" height="20"/> Humidité</h4>
-            <h1 class="display-6">54 <small class="text-body-secondary fs-3">%</small></h1>
+            <h1 class="display-6"><span id="humidite">NaN</span> <small class="text-body-secondary fs-3">%</small></h1>
           </div>
           <canvas id="chartHumidity"></canvas>
         </div>
@@ -61,13 +62,13 @@
         <div class="card w-50 m-2">
           <div class="card-body">
             <h4 class="card-title text-body-secondary"><img src="{{ url_for('static', filename='img/lightbulb-fill.svg') }}" width="20" height="20"/> Lumière</h4>
-            <h1 class="display-6">86 <small class="text-body-secondary fs-3">%</small></h1>
+            <h1 class="display-6"><span id="luminosite">NaN</span> <small class="text-body-secondary fs-3">%</small></h1>
           </div>
         </div>
         <div class="card w-50 m-2">
           <div class="card-body">
             <h4 class="card-title text-body-secondary"><img src="{{ url_for('static', filename='img/wind.svg') }}" width="20" height="20"/> Vent</h4>
-            <h1 class="display-6">24.7 <small class="text-body-secondary fs-3">km/h</small></h1>
+            <h1 class="display-6"><span id="vent">NaN</span> <small class="text-body-secondary fs-3">km/h</small></h1>
           </div>
         </div>
       </div>
@@ -79,19 +80,19 @@
         <div class="card w-50 m-2">
           <div class="card-body">
             <h4 class="card-title text-body-secondary"><img src="{{ url_for('static', filename='img/layout-three-columns.svg') }}" width="20" height="20"/> Volets</h4>
-            <h1 class="display-6">Ouverts</h1>
+            <h1 class="display-6"><span id="volets">NaN</span></h1>
           </div>
           <div class="mx-auto mb-5">
-            <button type="button" class="btn btn-outline-dark btn-lg">Fermer</button>
+            <button type="button" class="btn btn-outline-dark btn-lg" onclick="change_volets()"><span id="bouton_volets">NaN</span></button>
           </div>
         </div>
         <div class="card w-50 m-2">
           <div class="card-body">
             <h4 class="card-title text-body-secondary"><img src="{{ url_for('static', filename='img/columns.svg') }}" width="20" height="20"/> Stores</h4>
-            <h1 class="display-6">Fermés</small></h1>
+            <h1 class="display-6"><span id="stores">NaN</span></small></h1>
           </div>
           <div class="mx-auto mb-5">
-            <button type="button" class="btn btn-outline-dark btn-lg">Ouvrir</button>
+            <button type="button" class="btn btn-outline-dark btn-lg" onclick="change_stores()"><span id="bouton_stores">NaN</span></button>
           </div>
         </div>
       </div>
@@ -124,6 +125,7 @@
 </div>
 
 <script src="{{ url_for('static', filename='js/sketch.js') }}"></script>
+<script src="{{ url_for('static', filename='js/requete.js') }}"></script>
 <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
 
 {% endblock %}

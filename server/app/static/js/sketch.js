@@ -1,3 +1,6 @@
+let data;
+
+let date;
 let temperature;
 let humidite;
 let luminosite;
@@ -8,6 +11,8 @@ let stores;
 let nuages = [];
 let gouttes = [];
 let flocons = [];
+
+const div = document.getElementById("affichage_maison");
 
 class Nuage {
   constructor(x,y,taille) {
@@ -62,21 +67,12 @@ class Flocon {
 }
 
 function setup() {
-  let width = windowWidth/2;
-  var canvas = createCanvas(width,width/18*9);
+  var canvas = createCanvas(div.clientWidth,div.clientHeight);
   canvas.parent('affichage_maison');
-  let data = {"date" : "25/04/2004","temperature" : random(-98,57),"humidity" : random(0,100),"light" : random(0,100),"wind" : random(0,408),"shutters" : random() < 0.5,"blinds" : random() < 0.5};
-  temperature = data["temperature"];
-  humidite = data["humidity"];
-  luminosite = data["light"];
-  vent = data["wind"];
-  volets = data["shutters"];
-  stores = data["blinds"];
 }
 
 function windowResized() { //quand on modifie la taille de la fenêtre, on va adapter la taille du canvas
-  let width = windowWidth/2;
-  resizeCanvas(width,width/18*9);
+  resizeCanvas(div.clientWidth,div.clientHeight);
 }
 
 function draw() {
@@ -87,7 +83,7 @@ function draw() {
   let g = map(luminosite,0,100,0,181);
   let b = map(luminosite,0,100,0,254);
   
-  if (random() > 0.5+luminosite/200) {
+  if (random() < luminosite/200) {
     let taille = random(width/48,width/8);
     let x = -taille;
     let y = random(2*height/3);
